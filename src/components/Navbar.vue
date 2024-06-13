@@ -116,6 +116,7 @@
           <li>
             <a
               href=""
+              :class="user.role === ROLE.ADMIN ? 'flex' : 'hidden'"
               @click.prevent="navigateToDeveloper"
               class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
@@ -137,7 +138,34 @@
           <li>
             <a
               href=""
+              :class="user.role === ROLE.ADMIN ? 'flex' : 'hidden'"
               @click.prevent="navigateToIsses"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+              <svg
+                class="w-6 h-6"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4m0 4h.01M20.84 4.61A10 10 0 1112 2c2.77 0 5.29 1.13 7.09 2.95l-1.41 1.42A8 8 0 1020 12a8.07 8.07 0 00-2.16-5.42L16.34 8 22 2m-7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span class="flex-1 ms-3 whitespace-nowrap">Issues</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href=""
+              :class="user.role === ROLE.ADMIN ? 'hidden' : 'flex'"
+              @click.prevent="navigateToAssignedIssue"
               class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <svg
@@ -194,9 +222,11 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth";
 import logo from "../assets/issue.png";
+import { ROLE } from "../lib/enum";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const user = authStore.user;
 
 const handleSignOut = () => {
   authStore.logout();
@@ -214,8 +244,12 @@ const navigateToHome = () => {
 };
 
 const navigateToProject = () => {
-  router.push({ name: "Project" });
+  user.role === ROLE.ADMIN ? router.push({ name: "Project" }) : router.push({name: "_project"});
 };
+
+const navigateToAssignedIssue = () => {
+  router.push({ name: "AssignedIssue" });
+}
 
 const navigateToDeveloper = () => {
   router.push({ name: "Employees" });

@@ -30,9 +30,9 @@ export const employees = async (): Promise<{
       const errorDetail = await response.json();
 
       if (response.status === 401) {
-        alert(errorDetail.detail);
-        authStore.logout();
         router.push("/");
+        authStore.logout();
+        
       }
 
       throw new Error("Network response was not ok");
@@ -46,6 +46,52 @@ export const employees = async (): Promise<{
     return { success: false, message: "Unknown error occured" };
   }
 };
+
+export const deleteEmployee = async (user_id: string): Promise<{message: string}> => {
+  const authStore = useAuthStore();
+  const router = useRouter();
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${authStore.authToken}`);
+
+  const raw = JSON.stringify({
+    user_id: user_id,
+  });
+
+  const requestOptions: RequestInit = {
+    method: "DELETE",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/user/`,
+      requestOptions
+    );
+
+    if (!response.ok) {
+      const errorDetail = await response.json();
+
+      if (response.status === 401) {
+        router.push("/");
+        authStore.logout();
+      }
+
+      throw new Error("Network response was not ok");
+    }
+
+    const res: { detail: string } = await response.json();
+
+    return { message: res.detail };
+
+  } catch (error) {
+    console.error(error);
+    return { message: "Unknown error occured" };
+  }
+}
 
 export const ativateEmployee = async (
   user_id: string

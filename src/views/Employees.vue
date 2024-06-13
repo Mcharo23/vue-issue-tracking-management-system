@@ -67,13 +67,18 @@
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   <span
-                    v-if="employee.is_active"
+                    v-if="employee.is_deleted"
+                    class="bg-red-500 text-white text-xs font-medium me-2 px-3.5 py-1.5 rounded"
+                    >{{ STATUS.DELETED }}</span
+                  >
+                  <span
+                    v-else-if="employee.is_active"
                     class="bg-green-500 text-white text-xs font-medium me-2 px-3.5 py-1.5 rounded"
                     >{{ STATUS.ACTIVE }}</span
                   >
                   <span
-                    v-if="!employee.is_active"
-                    class="bg-red-500 text-white text-xs font-medium me-2 px-3.5 py-1.5 rounded"
+                    v-else-if="!employee.is_active"
+                    class="bg-gray-500 text-white text-xs font-medium me-2 px-3.5 py-1.5 rounded"
                     >{{ STATUS.INACTIVE }}</span
                   >
                 </td>
@@ -91,10 +96,12 @@
                   </button>
                   <button
                     type="button"
-                    class="py-2 px-4 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-700"
-                    @click="deleteEmployee(employee.user_id)"
+                    :class="employee.is_deleted ? 'bg-green-500 hover:bg-green-700' : 'bg-red-500 hover:bg-red-700'"
+                    class="py-2 px-4 text-sm font-medium text-white rounded-lg "
+                    @click="deleteAccount(employee.user_id)"
                   >
-                    Delete
+                    <span v-if="employee.is_deleted"> Restore </span>
+                    <span v-if="!employee.is_deleted"> Delete </span>
                   </button>
                 </td>
               </tr>
@@ -237,6 +244,7 @@ import Navbar from "../components/Navbar.vue";
 import {
   employees,
   ativateEmployee,
+  deleteEmployee,
   addNewDeveloper,
 } from "../api/employee.ts";
 import { STATUS } from "../lib/enum.ts";
@@ -253,15 +261,16 @@ const getEmployees = async () => {
   employeeList.value = data;
 };
 
-onMounted(getEmployees);
+
 
 const activateEmployee = async (user_id) => {
   const { message } = await ativateEmployee(user_id);
   getEmployees();
 };
 
-const deleteEmployee = (user_id) => {
-  console.log("Delete employee with id:", user_id);
+const deleteAccount = async (user_id) => {
+  const { message } = await deleteEmployee(user_id);
+  getEmployees();
 };
 
 const toggleModel = () => {
@@ -277,6 +286,8 @@ const handleOnSubmitNewDeveloper = async () => {
   getEmployees();
   toggleModel();
 };
+
+onMounted(getEmployees);
 
 const components = { Navbar };
 </script>

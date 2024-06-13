@@ -4,8 +4,9 @@
 
     <div class="p-4 sm:ml-64">
       <!-- header -->
-      <div class="mt-14 flex flex-col justify-center items-center">
+      <div  class="mt-14 flex-col justify-center flex items-center">
         <div
+        :class="user.role === ROLE.ADMIN ? 'flex' : 'hidden'"
           class="p-4 border-2 border-gray-200 max-w-7xl flex flex-row justify-between items-center w-full rounded-md"
         >
           <p class="text-2xl text-gray-900">Projects</p>
@@ -157,6 +158,11 @@
 import { onMounted, ref } from "vue";
 import Navbar from "../components/Navbar.vue";
 import { newProject, projects } from "../api/projects";
+import { useAuthStore } from "../store/auth";
+import { ROLE } from "../lib/enum";
+
+const authStore = useAuthStore();
+const user = authStore.user;
 
 const isModelOpen = ref(false);
 const projectList = ref([]);
@@ -169,7 +175,6 @@ const toggleModel = () => {
 
 const getProjects = async () => {
   const { success, data, message } = await projects();
-  console.log(data);
   if (success) {
     projectList.value = data;
   } else {

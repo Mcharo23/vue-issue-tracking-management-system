@@ -5,6 +5,7 @@ import Developer from "./views/Developer.vue";
 import Employee from "./views/Employees.vue";
 import Project from "./views/Project.vue";
 import Issue from "./views/Issue.vue";
+import AssignedIssue from "./views/AssignedIssue.vue";
 import { authGuard } from "./utils/auth-guard";
 
 const routes: RouteRecordRaw[] = [
@@ -23,15 +24,27 @@ const routes: RouteRecordRaw[] = [
     beforeEnter: authGuard,
   },
   {
+    path: "/developer/project",
+    name: "_project",
+    component: Project,
+    beforeEnter: authGuard,
+  },
+  {
     path: "/home/employees",
     name: "Employees",
     component: Employee,
     beforeEnter: authGuard,
   },
   {
-    path: "/Home/issues",
+    path: "/home/issues",
     name: "Issue",
     component: Issue,
+    beforeEnter: authGuard,
+  },
+  {
+    path: "/developer/issues",
+    name: "AssignedIssue",
+    component: AssignedIssue,
     beforeEnter: authGuard,
   },
 ];
