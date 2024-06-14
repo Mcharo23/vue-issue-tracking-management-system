@@ -23,10 +23,7 @@ export const projects = async (): Promise<{
   };
 
   try {
-    const response: Response = await fetch(
-      `${apiUrl}/project/`,
-      requestOptions
-    );
+    const response: Response = await fetch(`${apiUrl}/project`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
@@ -73,10 +70,7 @@ export const newProject = async (
   };
 
   try {
-    const response: Response = await fetch(
-      `${apiUrl}/project/`,
-      requestOptions
-    );
+    const response: Response = await fetch(`${apiUrl}/project`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();

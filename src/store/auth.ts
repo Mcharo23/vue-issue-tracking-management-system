@@ -6,9 +6,15 @@ export const useAuthStore = defineStore({
   id: "auth",
   state: (): { authToken: string | null; user: USER | null } => ({
     authToken: localStorage.getItem("token") as string | null,
-    user: localStorage.getItem("token")
-      ? (jwtDecode(localStorage.getItem("token") as string) as USER)
-      : null,
+    user: ((): USER | null => {
+      if (localStorage.getItem("token")) {
+        const user: USER = jwtDecode(localStorage.getItem("token") as string);
+        user.role = user.role.toLowerCase();
+        return user;
+      }
+
+      return null;
+    })(),
   }),
   getters: {
     getAuthToken: (state): string | null => state.authToken,
@@ -78,6 +84,8 @@ export const useAuthStore = defineStore({
         }
 
         const user: USER = jwtDecode(data.token);
+        user.role = user.role.toLowerCase();
+
         this._setAuthToken(data.token);
         this._setUser(user);
 

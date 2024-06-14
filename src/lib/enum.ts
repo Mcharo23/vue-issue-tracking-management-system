@@ -23,6 +23,20 @@ export enum ISSUE_STATUS {
   Closed = "Closed",
 }
 
+// export enum ISSUE_STATUS {
+//   Open = "OPEN",
+//   InProgress = "IN_PROGRESS",
+//   Resolved = "RESOLVED",
+//   Closed = "CLOSED",
+// }
+
+// export enum PRIORITY {
+//   Low = "LOW",
+//   Medium = "MEDIUM",
+//   High = "HIGH",
+//   Critical = "CRITICAL",
+// }
+
 const PRIORITY_COLORS: { [key in PRIORITY]: string } = {
   [PRIORITY.Low]: "#8BC34A", // Green
   [PRIORITY.Medium]: "#FFEB3B", // Yellow

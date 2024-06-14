@@ -24,7 +24,7 @@ export const getIssues = async (): Promise<{
   };
 
   try {
-    const response: Response = await fetch(`${apiUrl}/issue/`, requestOptions);
+    const response: Response = await fetch(`${apiUrl}/issue`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
@@ -115,14 +115,18 @@ export const newIssue = async (
   myHeaders.append("Authorization", `Bearer ${authStore.authToken}`);
 
   const raw = JSON.stringify({
-    project_id: project_id,
-    issue_type_id: issue_type_id,
+    project_id:
+      typeof project_id === "number" ? Number(project_id) : project_id,
+    issue_type_id:
+      typeof issue_type_id === "number" ? Number(issue_type_id) : issue_type_id,
     summary: summary,
     description: description,
     priority: priority,
     status: status,
-    reporter_id: authStore.user.user_id,
-    assignee_id: selectedDeveoper,
+    assignee_id:
+      typeof selectedDeveoper === "number"
+        ? Number(selectedDeveoper)
+        : selectedDeveoper,
     comments: [],
   });
 
@@ -134,7 +138,7 @@ export const newIssue = async (
   };
 
   try {
-    const response: Response = await fetch(`${apiUrl}/issue/`, requestOptions);
+    const response: Response = await fetch(`${apiUrl}/issue`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
@@ -176,13 +180,13 @@ export const updateIssueStatus = async (
   myHeaders.append("Authorization", `Bearer ${authStore.authToken}`);
 
   const raw = JSON.stringify({
-    issue_id: issue_id,
-    comment: comment,
+    issue_id: typeof issue_id === "number" ? Number(issue_id) : issue_id,
     status: status,
+    comment: comment,
   });
 
   const requestOptions: RequestInit = {
-    method: "POST",
+    method: "PUT",
     headers: myHeaders,
     body: raw,
     redirect: "follow",

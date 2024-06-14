@@ -24,7 +24,7 @@ export const getIssueTypes = async (): Promise<{
 
   try {
     const response: Response = await fetch(
-      `${apiUrl}/issue-type/`,
+      `${apiUrl}/issue-type`,
       requestOptions
     );
 
@@ -71,7 +71,7 @@ export const newIssueType = async (
 
   try {
     const response: Response = await fetch(
-      `${apiUrl}/issue-type/`,
+      `${apiUrl}/issue-type`,
       requestOptions
     );
 

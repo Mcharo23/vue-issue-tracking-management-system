@@ -23,7 +23,7 @@ export const employees = async (): Promise<{
   };
 
   try {
-    const response: Response = await fetch(`${apiUrl}/user/`, requestOptions);
+    const response: Response = await fetch(`${apiUrl}/user`, requestOptions);
 
     if (!response.ok) {
       //const errorDetail = await response.json();
@@ -67,7 +67,7 @@ export const deleteEmployee = async (
   };
 
   try {
-    const response = await fetch(`${apiUrl}/user/`, requestOptions);
+    const response = await fetch(`${apiUrl}/user`, requestOptions);
 
     if (!response.ok) {
       //const errorDetail = await response.json();
@@ -105,14 +105,14 @@ export const ativateEmployee = async (
   });
 
   const requestOptions: RequestInit = {
-    method: "PATCH",
+    method: "PUT",
     headers: myHeaders,
     body: raw,
     redirect: "follow",
   };
 
   try {
-    const response: Response = await fetch(`${apiUrl}/user/`, requestOptions);
+    const response: Response = await fetch(`${apiUrl}/user`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
@@ -163,7 +163,7 @@ export const addNewDeveloper = async (
   };
 
   try {
-    const response: Response = await fetch(`${apiUrl}/user/`, requestOptions);
+    const response: Response = await fetch(`${apiUrl}/user`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
