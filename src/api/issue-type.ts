@@ -2,6 +2,8 @@ import { ISSUE_TYPE } from "../lib/Type";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 
+const apiUrl = import.meta.env.VITE_APP_API_URL;
+
 export const getIssueTypes = async (): Promise<{
   success: boolean;
   data?: ISSUE_TYPE[];
@@ -22,7 +24,7 @@ export const getIssueTypes = async (): Promise<{
 
   try {
     const response: Response = await fetch(
-      `http://localhost:3000/issue-type/`,
+      `${apiUrl}/issue-type/`,
       requestOptions
     );
 
@@ -69,10 +71,9 @@ export const newIssueType = async (
 
   try {
     const response: Response = await fetch(
-      `http://localhost:3000/issue-type/`,
+      `${apiUrl}/issue-type/`,
       requestOptions
     );
-
 
     if (!response.ok) {
       const errorDetail = await response.json();

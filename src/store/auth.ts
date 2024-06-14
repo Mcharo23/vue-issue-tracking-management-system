@@ -41,6 +41,8 @@ export const useAuthStore = defineStore({
       success: boolean;
       message?: string;
     }> {
+      const apiUrl = import.meta.env.VITE_APP_API_URL;
+
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -57,10 +59,7 @@ export const useAuthStore = defineStore({
       };
 
       try {
-        const response: Response = await fetch(
-          `http://localhost:3000/`,
-          requestOptions
-        );
+        const response: Response = await fetch(`${apiUrl}/`, requestOptions);
 
         if (!response.ok) {
           const errorDetail = await response.json();

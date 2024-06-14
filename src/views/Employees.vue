@@ -96,8 +96,12 @@
                   </button>
                   <button
                     type="button"
-                    :class="employee.is_deleted ? 'bg-green-500 hover:bg-green-700' : 'bg-red-500 hover:bg-red-700'"
-                    class="py-2 px-4 text-sm font-medium text-white rounded-lg "
+                    :class="
+                      employee.is_deleted
+                        ? 'bg-green-500 hover:bg-green-700'
+                        : 'bg-red-500 hover:bg-red-700'
+                    "
+                    class="py-2 px-4 text-sm font-medium text-white rounded-lg"
                     @click="deleteAccount(employee.user_id)"
                   >
                     <span v-if="employee.is_deleted"> Restore </span>
@@ -170,10 +174,22 @@
                       type="text"
                       name="first_name"
                       id="first_name"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      :class="[
+                        'bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                        firstNameError
+                          ? 'dark:border-red-500 border-red-300'
+                          : 'dark:border-gray-500 border-gray-300',
+                      ]"
                       placeholder="developer first name"
                       required=""
                     />
+
+                    <p
+                      v-if="firstNameError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ firstNameError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2">
@@ -187,10 +203,18 @@
                       type="text"
                       name="last_name"
                       id="last_name"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      :class="[
+                        'bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                        lastNameError
+                          ? 'dark:border-red-500 border-red-300'
+                          : 'dark:border-gray-500 border-gray-300',
+                      ]"
                       placeholder="developer last name"
                       required=""
                     />
+                    <p v-if="lastNameError" class="text-red-500 text-xs italic">
+                      {{ lastNameError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2">
@@ -204,10 +228,18 @@
                       type="email"
                       name="email"
                       id="email"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      :class="[
+                        'bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                        emailError
+                          ? 'dark:border-red-500 border-red-300'
+                          : 'dark:border-gray-500 border-gray-300',
+                      ]"
                       placeholder="developer email"
                       required=""
                     />
+                    <p v-if="emailError" class="text-red-500 text-xs italic">
+                      {{ emailError }}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -239,7 +271,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import Navbar from "../components/Navbar.vue";
 import {
   employees,
@@ -255,13 +287,18 @@ const firstName = ref("");
 const lastName = ref("");
 const email = ref("");
 
+// errors
+const firstNameError = ref(null);
+const lastNameError = ref(null);
+const emailError = ref(null);
+
 const getEmployees = async () => {
   const { success, message, data } = await employees();
 
-  employeeList.value = data;
+  if (success) {
+    employeeList.value = data;
+  }
 };
-
-
 
 const activateEmployee = async (user_id) => {
   const { message } = await ativateEmployee(user_id);
@@ -273,19 +310,58 @@ const deleteAccount = async (user_id) => {
   getEmployees();
 };
 
+const resetForm = () => {
+  firstName.value = "";
+  lastName.value = "";
+  email.value = "";
+  firstNameError.value = null;
+  lastNameError.value = null;
+  emailError.value = null;
+};
+
 const toggleModel = () => {
   isModelOpen.value = !isModelOpen.value;
+  resetForm();
 };
 
 const handleOnSubmitNewDeveloper = async () => {
+  firstNameError.value =
+    firstName.value.length === 0 ? "First name required" : null;
+  lastNameError.value =
+    lastName.value.length === 0 ? "Last name required" : null;
+  emailError.value = email.value.length === 0 ? "Email address required" : null;
+
+  if (firstNameError.value || lastNameError.value || emailError.value) {
+    return;
+  }
+
   const { message } = await addNewDeveloper(
     firstName.value,
     lastName.value,
     email.value
   );
+
   getEmployees();
   toggleModel();
 };
+
+watch(firstName, (newValue) => {
+  if (newValue.length > 0) {
+    firstNameError.value = null;
+  }
+});
+
+watch(lastName, (newValue) => {
+  if (newValue.length > 0) {
+    lastNameError.value = null;
+  }
+});
+
+watch(email, (newValue) => {
+  if (newValue.length > 0) {
+    emailError.value = null;
+  }
+});
 
 onMounted(getEmployees);
 

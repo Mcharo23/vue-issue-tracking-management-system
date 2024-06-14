@@ -2,6 +2,8 @@ import { PROJECT } from "../lib/Type";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 
+const apiUrl = import.meta.env.VITE_APP_API_URL;
+
 export const projects = async (): Promise<{
   success: boolean;
   data?: PROJECT[];
@@ -22,7 +24,7 @@ export const projects = async (): Promise<{
 
   try {
     const response: Response = await fetch(
-      `http://localhost:3000/project/`,
+      `${apiUrl}/project/`,
       requestOptions
     );
 
@@ -72,7 +74,7 @@ export const newProject = async (
 
   try {
     const response: Response = await fetch(
-      `http://localhost:3000/project/`,
+      `${apiUrl}/project/`,
       requestOptions
     );
 

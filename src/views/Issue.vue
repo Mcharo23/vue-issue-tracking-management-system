@@ -285,13 +285,19 @@
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >Select Issue Type</label
                     >
-
                     <select
                       id="issueType"
                       v-model="selectedIssueType"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        selectedIssueTypeError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                     >
-                      <option selected disabled>Select an issue type</option>
+                      <option selected disabled value="">
+                        Select an issue type
+                      </option>
                       <option
                         v-for="issueType in issueTypeList"
                         :key="issueType.issue_type_id"
@@ -300,6 +306,12 @@
                         {{ issueType.name }}
                       </option>
                     </select>
+                    <p
+                      v-if="selectedIssueTypeError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ selectedIssueTypeError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2 sm:col-span-1">
@@ -308,13 +320,19 @@
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >Select Project</label
                     >
-
                     <select
                       id="projects"
                       v-model="selectedProject"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        selectedProjectError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                     >
-                      <option selected disabled>Select a project</option>
+                      <option selected disabled value="">
+                        Select a project
+                      </option>
                       <option
                         v-for="project in projectList"
                         :key="project.project_id"
@@ -323,6 +341,12 @@
                         {{ project.project_name }}
                       </option>
                     </select>
+                    <p
+                      v-if="selectedProjectError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ selectedProjectError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2 sm:col-span-1">
@@ -334,10 +358,16 @@
                     <select
                       id="priority"
                       v-model="selectedPriority"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        selectedPriorityError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                     >
-                      <option selected disabled>Select a priority</option>
-                      <!-- Populate options from the PRIORITY enum -->
+                      <option selected disabled value="">
+                        Select a priority
+                      </option>
                       <option
                         v-for="(priority, key) in PRIORITY"
                         :key="key"
@@ -346,6 +376,12 @@
                         {{ priority }}
                       </option>
                     </select>
+                    <p
+                      v-if="selectedPriorityError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ selectedPriorityError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2 sm:col-span-1">
@@ -357,10 +393,16 @@
                     <select
                       id="status"
                       v-model="selectedStatus"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        selectedStatusError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                     >
-                      <option selected disabled>Select a status</option>
-                      <!-- Populate options from the ISSUE_STATUS enum -->
+                      <option selected disabled value="">
+                        Select a status
+                      </option>
                       <option
                         v-for="(status, key) in ISSUE_STATUS"
                         :key="key"
@@ -369,6 +411,12 @@
                         {{ status }}
                       </option>
                     </select>
+                    <p
+                      v-if="selectedStatusError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ selectedStatusError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2">
@@ -377,13 +425,19 @@
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >Select Developer</label
                     >
-
                     <select
                       id="projects"
                       v-model="selectedDeveoper"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        selectedDeveoperError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                     >
-                      <option selected disabled>Select a developer</option>
+                      <option selected disabled value="">
+                        Select a developer
+                      </option>
                       <option
                         v-for="developer in developerList"
                         :key="developer.user_id"
@@ -392,6 +446,12 @@
                         {{ developer.first_name + " " + developer.last_name }}
                       </option>
                     </select>
+                    <p
+                      v-if="selectedDeveoperError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ selectedDeveoperError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2">
@@ -402,13 +462,19 @@
                     >
                     <textarea
                       v-model="summary"
-                      type="text"
-                      name="summary"
                       id="summary"
                       rows="4"
-                      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        summaryError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                       placeholder="issue summary"
                     ></textarea>
+                    <p v-if="summaryError" class="text-red-500 text-xs italic">
+                      {{ summaryError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2">
@@ -419,13 +485,22 @@
                     >
                     <textarea
                       v-model="issue_description"
-                      type="text"
-                      name="description"
                       id="description"
                       rows="4"
-                      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        issueDescritionError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                       placeholder="issue description"
                     ></textarea>
+                    <p
+                      v-if="issueDescritionError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ issueDescritionError }}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -511,10 +586,21 @@
                       type="text"
                       name="issue_type_name"
                       id="issue_type_name"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      :class="[
+                        'bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500',
+                        issueTypeNameError
+                          ? 'dark:border-red-500 border-red-300'
+                          : 'dark:border-gray-500 border-gray-300',
+                      ]"
                       placeholder="issue name"
                       required=""
                     />
+                    <p
+                      v-if="issueTypeNameError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ issueTypeNameError }}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -546,7 +632,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import Navbar from "../components/Navbar.vue";
 import { getIssues, newIssue } from "../api/issue";
 import { employees } from "../api/employee";
@@ -569,8 +655,6 @@ const issueTypeList = ref([]);
 const projectList = ref([]);
 const developerList = ref([]);
 
-const project_name = ref("");
-const description = ref("");
 const activeTab = ref("issue");
 
 const selectedIssueType = ref("");
@@ -583,16 +667,51 @@ const selectedDeveoper = ref("");
 
 const issue_type_name = ref("");
 
+// errors
+const issueTypeNameError = ref(null);
+const selectedIssueTypeError = ref(null);
+const selectedProjectError = ref(null);
+const selectedPriorityError = ref(null);
+const selectedStatusError = ref(null);
+const summaryError = ref(null);
+const issueDescritionError = ref(null);
+const selectedDeveoperError = ref(null);
+
+const resetForm = () => {
+  selectedIssueType.value = "";
+  selectedProject.value = "";
+  selectedPriority.value = "";
+  selectedStatus.value = "";
+  summary.value = "";
+  issue_description.value = "";
+  selectedDeveoper.value = "";
+  issue_type_name.value = "";
+
+  issueTypeNameError.value = null;
+  selectedIssueTypeError.value = null;
+  selectedProjectError.value = null;
+  selectedPriorityError.value = null;
+  selectedStatusError.value = null;
+  summaryError.value = null;
+  issueDescritionError.value = null;
+  selectedDeveoperError.value = null;
+};
+
+watch(selectedIssueType, (newValue) => {});
+
 const toggleActionModel = (issue_id) => {
   isActionModelOpen.value = !isActionModelOpen.value;
+  resetForm();
 };
 
 const toggleIssueTypeModel = (issue_id) => {
   isIssueTypeOpnen.value = !isIssueTypeOpnen.value;
+  resetForm();
 };
 
 const toggleIssueModel = () => {
   isNewIssueModelOpen.value = !isNewIssueModelOpen.value;
+  resetForm();
 };
 
 const getAllIssues = async () => {
@@ -604,6 +723,33 @@ const getAllIssues = async () => {
 };
 
 const handleOnSubmitNewIssue = async () => {
+  selectedIssueTypeError.value =
+    selectedIssueType.value.length === 0 ? "Select issue type" : null;
+  selectedProjectError.value =
+    selectedProject.value.length === 0 ? "Select project" : null;
+  selectedPriorityError.value =
+    selectedPriority.value.length === 0 ? "Select priority" : null;
+  selectedStatusError.value =
+    selectedStatus.value.length === 0 ? "Select status" : null;
+  summaryError.value =
+    summary.value.length === 0 ? "Summary for issue required" : null;
+  issueDescritionError.value =
+    issue_description.value.length === 0 ? "Issue description required" : null;
+  selectedDeveoperError.value =
+    selectedDeveoper.value.length === 0 ? "Select developer" : null;
+
+  if (
+    selectedIssueTypeError.value ||
+    selectedProjectError.value ||
+    selectedPriorityError.value ||
+    selectedStatusError.value ||
+    summaryError.value ||
+    issueDescritionError.value ||
+    selectedDeveoperError.value
+  ) {
+    return;
+  }
+
   const { message } = await newIssue(
     selectedProject.value,
     selectedIssueType.value,
@@ -619,16 +765,6 @@ const handleOnSubmitNewIssue = async () => {
   setTimeout(() => {
     toggleIssueModel();
   }, 100);
-};
-
-const handleOnSubmitNewProject = async () => {
-  const { message } = await newProject(project_name.value, description.value);
-
-  getAllIssues();
-
-  setTimeout(() => {
-    toggleModel();
-  }, 1000);
 };
 
 const getAllIssueTypes = async () => {
@@ -656,6 +792,13 @@ const getDevelopers = async () => {
 };
 
 const handleOnSubmitIssueTypeName = async () => {
+  issueTypeNameError.value =
+    issue_type_name.value.length === 0 ? "Issue name required" : null;
+
+  if (issueTypeNameError.value) {
+    return;
+  }
+
   const { message } = await newIssueType(issue_type_name.value);
 
   setTimeout(() => {
@@ -663,6 +806,40 @@ const handleOnSubmitIssueTypeName = async () => {
     toggleIssueTypeModel();
   }, 100);
 };
+
+// WATCHERS
+
+watch(selectedIssueType, (newValue) => {
+  selectedIssueTypeError.value = null;
+});
+
+watch(selectedProject, (newValue) => {
+  selectedProjectError.value = null;
+});
+
+watch(selectedPriority, (newValue) => {
+  selectedPriorityError.value = null;
+});
+
+watch(selectedStatus, (newValue) => {
+  selectedStatusError.value = null;
+});
+
+watch(summary, (newValue) => {
+  summaryError.value = null;
+});
+
+watch(issue_description, (newValue) => {
+  issueDescritionError.value = null;
+});
+
+watch(selectedDeveoper, (newValue) => {
+  selectedDeveoperError.value = null;
+});
+
+watch(issue_type_name, (newValue) => {
+  issueTypeNameError.value = null;
+});
 
 onMounted(getDevelopers);
 onMounted(getAllIssues);

@@ -3,6 +3,8 @@ import { ROLE } from "../lib/enum";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 
+const apiUrl = import.meta.env.VITE_APP_API_URL;
+
 export const getIssues = async (): Promise<{
   success: boolean;
   data?: ISSUE[];
@@ -22,10 +24,7 @@ export const getIssues = async (): Promise<{
   };
 
   try {
-    const response: Response = await fetch(
-      `http://localhost:3000/issue/`,
-      requestOptions
-    );
+    const response: Response = await fetch(`${apiUrl}/issue/`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
@@ -68,7 +67,7 @@ export const getIssuesByAssigneeId = async (): Promise<{
 
   try {
     const response: Response = await fetch(
-      `http://localhost:3000/issue/assignee`,
+      `${apiUrl}/issue/assignee`,
       requestOptions
     );
 
@@ -135,10 +134,7 @@ export const newIssue = async (
   };
 
   try {
-    const response: Response = await fetch(
-      `http://localhost:3000/issue/`,
-      requestOptions
-    );
+    const response: Response = await fetch(`${apiUrl}/issue/`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
@@ -194,7 +190,7 @@ export const updateIssueStatus = async (
 
   try {
     const response: Response = await fetch(
-      `http://localhost:3000/issue/status`,
+      `${apiUrl}/issue/status`,
       requestOptions
     );
 

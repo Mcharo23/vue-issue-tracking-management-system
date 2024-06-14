@@ -4,9 +4,9 @@
 
     <div class="p-4 sm:ml-64">
       <!-- header -->
-      <div  class="mt-14 flex-col justify-center flex items-center">
+      <div class="mt-14 flex-col justify-center flex items-center">
         <div
-        :class="user.role === ROLE.ADMIN ? 'flex' : 'hidden'"
+          :class="user.role === ROLE.ADMIN ? 'flex' : 'hidden'"
           class="p-4 border-2 border-gray-200 max-w-7xl flex flex-row justify-between items-center w-full rounded-md"
         >
           <p class="text-2xl text-gray-900">Projects</p>
@@ -103,10 +103,21 @@
                       type="text"
                       name="project_name"
                       id="project_name"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      :class="[
+                        'bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:bg-gray-600 ',
+                        projectNameError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                       placeholder="project name"
                       required=""
                     />
+                    <p
+                      v-if="projectNameError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ projectNameError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2">
@@ -121,9 +132,20 @@
                       name="description"
                       id="description"
                       rows="4"
-                      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        descriptionError
+                          ? 'border-red-300 dark:red-gray-600'
+                          : 'border-gray-300 dark:border-gray-600',
+                      ]"
                       placeholder="project description"
-                    />
+                    ></textarea>
+                    <p
+                      v-if="descriptionError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ descriptionError }}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -155,7 +177,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import Navbar from "../components/Navbar.vue";
 import { newProject, projects } from "../api/projects";
 import { useAuthStore } from "../store/auth";
@@ -169,8 +191,20 @@ const projectList = ref([]);
 const project_name = ref("");
 const description = ref("");
 
+// errors
+const projectNameError = ref(null);
+const descriptionError = ref(null);
+
+const resetForm = () => {
+  project_name.value = "";
+  description.value = "";
+  projectNameError.value = null;
+  descriptionError.value = null;
+};
+
 const toggleModel = () => {
   isModelOpen.value = !isModelOpen.value;
+  resetForm();
 };
 
 const getProjects = async () => {
@@ -182,6 +216,15 @@ const getProjects = async () => {
 };
 
 const handleOnSubmitNewProject = async () => {
+  projectNameError.value =
+    project_name.value.length === 0 ? "Project name required" : null;
+  descriptionError.value =
+    description.value.length === 0 ? "Description required" : null;
+
+  if (projectNameError.value || descriptionError.value) {
+    return;
+  }
+
   const { message } = await newProject(project_name.value, description.value);
 
   getProjects();
@@ -190,6 +233,18 @@ const handleOnSubmitNewProject = async () => {
     toggleModel();
   }, 1000);
 };
+
+watch(project_name, (newValue) => {
+  if (newValue.length > 0) {
+    projectNameError.value = null;
+  }
+});
+
+watch(description, (newValue) => {
+  if (newValue.length > 0) {
+    descriptionError.value = null;
+  }
+});
 
 onMounted(getProjects);
 const components = { Navbar };

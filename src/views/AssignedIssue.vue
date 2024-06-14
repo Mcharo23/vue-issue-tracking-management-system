@@ -158,7 +158,7 @@
               <!-- Modal body -->
               <form class="p-4 md:p-5 max-w-screen-md min-w-[20rem]">
                 <div class="grid gap-4 mb-4 grid-cols-2 w-full">
-                    <div class="col-span-2">
+                  <div class="col-span-2">
                     <label
                       for="status"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -167,9 +167,16 @@
                     <select
                       id="status"
                       v-model="selectedStatus"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        selectedStatusError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                     >
-                      <option selected disabled>Select a status</option>
+                      <option selected disabled value="">
+                        Select a status
+                      </option>
                       <!-- Populate options from the ISSUE_STATUS enum -->
                       <option
                         v-for="(status, key) in ISSUE_STATUS"
@@ -179,6 +186,12 @@
                         {{ status }}
                       </option>
                     </select>
+                    <p
+                      v-if="selectedStatusError"
+                      class="text-red-500 text-xs italic"
+                    >
+                      {{ selectedStatusError }}
+                    </p>
                   </div>
 
                   <div class="col-span-2">
@@ -193,9 +206,17 @@
                       name="comment"
                       id="comment"
                       rows="4"
-                      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      :class="[
+                        'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                        commentError
+                          ? 'border-red-300 dark:border-red-500'
+                          : 'border-gray-300 dark:border-gray-500',
+                      ]"
                       placeholder="progress comment"
                     ></textarea>
+                    <p v-if="commentError" class="text-red-500 text-xs italic">
+                      {{ commentError }}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -227,10 +248,16 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import Navbar from "../components/Navbar.vue";
 import { getIssuesByAssigneeId, updateIssueStatus } from "../api/issue";
-import { ISSUE_STATUS, PRIORITY, PRIORITY_COLORS, STATUS, STATUS_COLORS } from "../lib/enum";
+import {
+  ISSUE_STATUS,
+  PRIORITY,
+  PRIORITY_COLORS,
+  STATUS,
+  STATUS_COLORS,
+} from "../lib/enum";
 
 const issueList = ref([]);
 const comment = ref("");
@@ -238,9 +265,21 @@ const selectedStatus = ref("");
 const selectedId = ref("");
 const isModelOpen = ref(false);
 
+// errors
+const commentError = ref(null);
+const selectedStatusError = ref(null);
+
+const resetForm = () => {
+  comment.value = "";
+  selectedStatus.value = "";
+  commentError.value = null;
+  selectedStatusError.value = null;
+};
+
 const toggleModel = (issue_id) => {
   selectedId.value = issue_id;
   isModelOpen.value = !isModelOpen.value;
+  resetForm();
 };
 
 const getIssues = async () => {
@@ -252,6 +291,15 @@ const getIssues = async () => {
 };
 
 const recordProgress = async () => {
+  commentError.value =
+    comment.value.length === 0 ? "Comment required for progress" : null;
+  selectedStatusError.value =
+    selectedStatus.value.length === 0 ? "Please select status" : null;
+
+  if (commentError.value || selectedStatusError.value) {
+    return;
+  }
+
   const { message } = await updateIssueStatus(
     selectedId.value,
     comment.value,
@@ -260,6 +308,18 @@ const recordProgress = async () => {
   toggleModel();
   getIssues();
 };
+
+watch(comment, (newValue) => {
+  if (newValue.length > 0) {
+    commentError.value = null;
+  }
+});
+
+watch(selectedStatus, (newValue) => {
+  if (newValue.length > 0) {
+    selectedStatusError.value = null;
+  }
+});
 
 onMounted(getIssues);
 const components = { Navbar };

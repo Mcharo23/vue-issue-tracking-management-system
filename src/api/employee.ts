@@ -2,6 +2,8 @@ import { EMPLOYEE } from "../lib/Type";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
 
+const apiUrl = import.meta.env.VITE_APP_API_URL;
+
 export const employees = async (): Promise<{
   success: boolean;
   data?: EMPLOYEE[];
@@ -21,18 +23,14 @@ export const employees = async (): Promise<{
   };
 
   try {
-    const response: Response = await fetch(
-      `http://localhost:3000/user/`,
-      requestOptions
-    );
+    const response: Response = await fetch(`${apiUrl}/user/`, requestOptions);
 
     if (!response.ok) {
-      const errorDetail = await response.json();
+      //const errorDetail = await response.json();
 
       if (response.status === 401) {
         router.push("/");
         authStore.logout();
-        
       }
 
       throw new Error("Network response was not ok");
@@ -47,7 +45,9 @@ export const employees = async (): Promise<{
   }
 };
 
-export const deleteEmployee = async (user_id: string): Promise<{message: string}> => {
+export const deleteEmployee = async (
+  user_id: string
+): Promise<{ message: string }> => {
   const authStore = useAuthStore();
   const router = useRouter();
 
@@ -63,17 +63,14 @@ export const deleteEmployee = async (user_id: string): Promise<{message: string}
     method: "DELETE",
     headers: myHeaders,
     body: raw,
-    redirect: "follow"
+    redirect: "follow",
   };
 
   try {
-    const response = await fetch(
-      `http://localhost:3000/user/`,
-      requestOptions
-    );
+    const response = await fetch(`${apiUrl}/user/`, requestOptions);
 
     if (!response.ok) {
-      const errorDetail = await response.json();
+      //const errorDetail = await response.json();
 
       if (response.status === 401) {
         router.push("/");
@@ -86,12 +83,11 @@ export const deleteEmployee = async (user_id: string): Promise<{message: string}
     const res: { detail: string } = await response.json();
 
     return { message: res.detail };
-
   } catch (error) {
     console.error(error);
     return { message: "Unknown error occured" };
   }
-}
+};
 
 export const ativateEmployee = async (
   user_id: string
@@ -116,10 +112,7 @@ export const ativateEmployee = async (
   };
 
   try {
-    const response: Response = await fetch(
-      `http://localhost:3000/user/`,
-      requestOptions
-    );
+    const response: Response = await fetch(`${apiUrl}/user/`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
@@ -128,6 +121,7 @@ export const ativateEmployee = async (
         alert(errorDetail.detail);
         authStore.logout();
         router.push("/");
+        return { message: errorDetail.message };
       }
 
       throw new Error("Network response was not ok");
@@ -169,10 +163,7 @@ export const addNewDeveloper = async (
   };
 
   try {
-    const response: Response = await fetch(
-      `http://localhost:3000/user/`,
-      requestOptions
-    );
+    const response: Response = await fetch(`${apiUrl}/user/`, requestOptions);
 
     if (!response.ok) {
       const errorDetail = await response.json();
