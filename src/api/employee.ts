@@ -185,3 +185,55 @@ export const addNewDeveloper = async (
     return { message: "Unknown error occured" };
   }
 };
+
+export const updatePassword = async (
+  old_password: string,
+  new_password: string
+): Promise<{
+  success: boolean;
+  message: string;
+}> => {
+  const authStore = useAuthStore();
+  const router = useRouter();
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${authStore.authToken}`);
+
+  const raw = JSON.stringify({
+    old_password: old_password,
+    new_password: new_password,
+  });
+
+  const requestOptions: RequestInit = {
+    method: "PATCH",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response: Response = await fetch(`${apiUrl}/user`, requestOptions);
+    
+    //Mcharo12!
+    if (!response.ok) {
+      const errorDetail = await response.json();
+
+      if (response.status === 401) {
+        alert(errorDetail.detail);
+        authStore.logout();
+        router.push("/");
+      } else if (response.status === 404) {
+        return { success: false, message: errorDetail.detail };
+      }
+
+      throw new Error("Network response was not ok");
+    }
+
+    const res: { detail: string } = await response.json();
+
+    return { success: true, message: res.detail };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Unknown error occured" };
+  }
+};

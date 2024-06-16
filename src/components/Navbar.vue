@@ -27,7 +27,7 @@
               </svg>
             </button>
             <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-              <img :src="logo" class="h-8 me-3" alt="FlowBite Logo" />
+              <img :src="logo" class="h-8 me-3" alt="itms Logo" />
               <span
                 class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
                 >ITMS</span
@@ -35,7 +35,7 @@
             </a>
           </div>
           <!-- PROFILE -->
-          <div class="flex items-center">
+          <div class="flex items-center flex-row">
             <div class="flex items-center ms-3">
               <div>
                 <button
@@ -46,10 +46,19 @@
                 >
                   <img
                     class="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    :src="profile"
                     alt="user photo"
                   />
                 </button>
+              </div>
+            </div>
+
+            <div class="flex flex-col text-sm gap-0 ms-1 text-white">
+              <div>
+                {{ user.last_name.concat(", ").concat(user.first_name) }}
+              </div>
+              <div class="text-xs">
+                {{ user.role }}
               </div>
             </div>
           </div>
@@ -190,6 +199,27 @@
           <li>
             <a
               href=""
+              @click.prevent="navigateToResetPassword"
+              class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+              <svg
+                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 22 21"
+              >
+                <path
+                  d="M11 1.02a1 1 0 0 0-1 .935V10H2.025a1 1 0 0 0-1 1.065c.013.188.028.374.028.565a8.5 8.5 0 1 0 9.039-9.039A1 1 0 0 0 11 1.02Z"
+                />
+              </svg>
+              <span class="flex-1 ms-3 whitespace-nowrap">Reset Password</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href=""
               @click.prevent="handleSignOut"
               class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
@@ -221,8 +251,9 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth";
-import logo from "../assets/issue.png";
+import logo from "../assets/ladybug.png";
 import { ROLE } from "../lib/enum";
+import profile from "../assets/profile.png";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -240,16 +271,20 @@ const toggleSidebar = () => {
 };
 
 const navigateToHome = () => {
-  router.push({ name: "Home" });
+  user.role === ROLE.ADMIN
+    ? router.push({ name: "Home" })
+    : router.push({ name: "Developer" });
 };
 
 const navigateToProject = () => {
-  user.role === ROLE.ADMIN ? router.push({ name: "Project" }) : router.push({name: "_project"});
+  user.role === ROLE.ADMIN
+    ? router.push({ name: "Project" })
+    : router.push({ name: "_project" });
 };
 
 const navigateToAssignedIssue = () => {
   router.push({ name: "AssignedIssue" });
-}
+};
 
 const navigateToDeveloper = () => {
   router.push({ name: "Employees" });
@@ -257,5 +292,12 @@ const navigateToDeveloper = () => {
 
 const navigateToIsses = () => {
   router.push({ name: "Issue" });
+};
+
+const navigateToResetPassword = () => {
+  console.log("cicked");
+  user.role === ROLE.ADMIN
+    ? router.push({ name: "ResetPassword" })
+    : router.push({ name: "_ResetPassword" });
 };
 </script>

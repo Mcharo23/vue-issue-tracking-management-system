@@ -2,230 +2,234 @@
   <div>
     <Navbar />
 
-    <div class="p-4 sm:ml-64">
-      <!-- header -->
-      <div class="mt-14 flex flex-col justify-center items-center">
-        <div
-          class="p-4 border-2 border-gray-200 max-w-7xl flex flex-row justify-between items-center w-full rounded-md"
-        >
-          <p class="text-2xl text-gray-900">Projects</p>
-        </div>
-      </div>
-
-      <!-- Tabs -->
-      <div class="mb-4 border-b border-gray-700">
-        <ul
-          class="flex flex-wrap -mb-px text-sm font-medium text-center"
-          role="tablist"
-        >
-          <li class="me-2" role="presentation">
-            <button
-              :class="[
-                'inline-block p-4 border-b-2 rounded-t-lg',
-                activeTab === 'issue'
-                  ? 'border-blue-500 text-blue-500'
-                  : 'hover:text-gray-600 hover:border-gray-300',
-              ]"
-              @click="activeTab = 'issue'"
-              id="issue-tab"
-              type="button"
-              role="tab"
-              aria-controls="issue"
-              :aria-selected="activeTab === 'issue'"
-            >
-              Issue
-            </button>
-          </li>
-          <li role="presentation">
-            <button
-              :class="[
-                'inline-block p-4 border-b-2 rounded-t-lg',
-                activeTab === 'issue-type'
-                  ? 'border-blue-500 text-blue-500'
-                  : 'hover:text-gray-600 hover:border-gray-300 ',
-              ]"
-              @click="activeTab = 'issue-type'"
-              id="issue-type-tab"
-              type="button"
-              role="tab"
-              aria-controls="issue-type"
-              :aria-selected="activeTab === 'issue-type'"
-            >
-              Issue Type
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <div
-          v-show="activeTab === 'issue'"
-          class="p-4 rounded-lg"
-          id="issue"
-          role="tabpanel"
-          aria-labelledby="issue-tab"
-        >
-          <div class="flex flex-row justify-end rounded border-dashed">
-            <button
-              type="button"
-              @click="toggleIssueModel"
-              class="flex flex-row py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-            >
-              <svg
-                class="me-1 -ms-1 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              Issue
-            </button>
+    <div class="p-4 sm:ml-64 justify-center flex">
+      <div class="w-full max-w-7xl">
+        <!-- header -->
+        <div class="mt-14 flex flex-col justify-center items-center">
+          <div
+            class="p-4 max-w-7xl bg-white flex flex-row justify-between items-center w-full rounded-md"
+          >
+            <p class="text-2xl text-gray-900">Issues</p>
           </div>
+        </div>
 
-          <!-- ALL ISSUES -->
-          <div class="mt-6 flex flex-col justify-center items-center">
-            <div
-              class="relative overflow-x-auto shadow-md sm:rounded-lg w-full max-w-7xl"
-            >
-              <table
-                class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+        <!-- Tabs -->
+        <div
+          class="mb-4 border-b border-gray-700 flex flex-row max-w-7xl w-full"
+        >
+          <ul
+            class="flex flex-wrap -mb-px text-sm font-medium text-center"
+            role="tablist"
+          >
+            <li class="me-2" role="presentation">
+              <button
+                :class="[
+                  'inline-block p-4 border-b-2 rounded-t-lg',
+                  activeTab === 'issue'
+                    ? 'border-blue-500 text-blue-500'
+                    : 'hover:text-gray-600 hover:border-gray-300',
+                ]"
+                @click="activeTab = 'issue'"
+                id="issue-tab"
+                type="button"
+                role="tab"
+                aria-controls="issue"
+                :aria-selected="activeTab === 'issue'"
               >
-                <thead
-                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                Issue
+              </button>
+            </li>
+            <li role="presentation">
+              <button
+                :class="[
+                  'inline-block p-4 border-b-2 rounded-t-lg',
+                  activeTab === 'issue-type'
+                    ? 'border-blue-500 text-blue-500'
+                    : 'hover:text-gray-600 hover:border-gray-300 ',
+                ]"
+                @click="activeTab = 'issue-type'"
+                id="issue-type-tab"
+                type="button"
+                role="tab"
+                aria-controls="issue-type"
+                :aria-selected="activeTab === 'issue-type'"
+              >
+                Issue Type
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <div
+            v-show="activeTab === 'issue'"
+            class="p-4 rounded-lg"
+            id="issue"
+            role="tabpanel"
+            aria-labelledby="issue-tab"
+          >
+            <div class="flex flex-row justify-end rounded">
+              <button
+                type="button"
+                @click="toggleIssueModel"
+                class="flex flex-row py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              >
+                <svg
+                  class="me-1 -ms-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <tr>
-                    <th scope="col" class="px-6 py-3">Project Name</th>
-                    <th scope="col" class="px-6 py-3">Issue Name</th>
-                    <th scope="col" class="px-6 py-3">Summary</th>
-                    <th scope="col" class="px-6 py-3">Developer</th>
-                    <th scope="col" class="px-6 py-3">Comments</th>
-                    <th scope="col" class="px-6 py-3">Priority</th>
-                    <th scope="col" class="px-6 py-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="issue in issueList"
-                    :key="issue.issue_id"
-                    class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                Issue
+              </button>
+            </div>
+
+            <!-- ALL ISSUES -->
+            <div class="mt-6 flex flex-col justify-center items-center">
+              <div
+                class="relative overflow-x-auto shadow-md sm:rounded-lg w-full"
+              >
+                <table
+                  class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                >
+                  <thead
+                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                   >
-                    <td
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    <tr>
+                      <th scope="col" class="px-6 py-3">Project Name</th>
+                      <th scope="col" class="px-6 py-3">Issue Name</th>
+                      <th scope="col" class="px-6 py-3">Summary</th>
+                      <th scope="col" class="px-6 py-3">Developer</th>
+                      <th scope="col" class="px-6 py-3">Comments</th>
+                      <th scope="col" class="px-6 py-3">Priority</th>
+                      <th scope="col" class="px-6 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="issue in issueList"
+                      :key="issue.issue_id"
+                      class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      {{ issue.project_name }}
-                    </td>
-
-                    <td
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {{ issue.issue_type }}
-                    </td>
-
-                    <td
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {{ issue.summary }}
-                    </td>
-
-                    <td
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {{ issue.developer }}
-                    </td>
-
-                    <td
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {{ issue.comments.length }}
-                    </td>
-
-                    <td
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      <span
-                        :style="{
-                          backgroundColor: PRIORITY_COLORS[issue.priority],
-                        }"
-                        class="text-sm font-medium me-2 px-2.5 py-0.5 rounded"
-                        >{{ issue.priority }}</span
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                    </td>
+                        {{ issue.project_name }}
+                      </td>
 
-                    <td
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      <span
-                        :style="{
-                          backgroundColor: STATUS_COLORS[issue.status],
-                        }"
-                        class="text-sm font-medium me-2 px-2.5 py-0.5 rounded"
-                        >{{ issue.status }}</span
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                        {{ issue.issue_type }}
+                      </td>
+
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {{ issue.summary }}
+                      </td>
+
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {{ issue.developer }}
+                      </td>
+
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {{ issue.comments.length }}
+                      </td>
+
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        <span
+                          :style="{
+                            backgroundColor: PRIORITY_COLORS[issue.priority],
+                          }"
+                          class="text-sm font-medium me-2 px-2.5 py-0.5 rounded"
+                          >{{ issue.priority }}</span
+                        >
+                      </td>
+
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        <span
+                          :style="{
+                            backgroundColor: STATUS_COLORS[issue.status],
+                          }"
+                          class="text-sm font-medium me-2 px-2.5 py-0.5 rounded"
+                          >{{ issue.status }}</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- ALL ISSUE TYPE -->
-        <div
-          v-show="activeTab === 'issue-type'"
-          class="p-4 rounded-lg"
-          id="issue-type"
-          role="tabpanel"
-          aria-labelledby="issue-type-tab"
-        >
-          <div class="flex flex-row justify-end rounded border-dashed">
-            <button
-              type="button"
-              @click="toggleIssueTypeModel"
-              class="flex flex-row py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-            >
-              <svg
-                class="me-1 -ms-1 w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              Issue Type
-            </button>
-          </div>
-
+          <!-- ALL ISSUE TYPE -->
           <div
-            v-if="issueTypeList.length > 0"
-            class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10"
+            v-show="activeTab === 'issue-type'"
+            class="p-4 rounded-lg"
+            id="issue-type"
+            role="tabpanel"
+            aria-labelledby="issue-type-tab"
           >
-            <div class="grid grid-cols-2 gap-4">
-              <div
-                v-for="issue in issueTypeList"
-                :key="issue.issue_type_id"
-                class="flex flex-col items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
+            <div class="flex flex-row justify-end rounded">
+              <button
+                type="button"
+                @click="toggleIssueTypeModel"
+                class="flex flex-row py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               >
-                <p
-                  class="line-clamp-3 text-2xl text-gray-900 dark:text-gray-200"
+                <svg
+                  class="me-1 -ms-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  {{ issue.name }}
-                </p>
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                Issue Type
+              </button>
+            </div>
+
+            <div
+              v-if="issueTypeList.length > 0"
+              class="p-4 rounded-lg dark:border-gray-700"
+            >
+              <div class="grid grid-cols-2 gap-4">
+                <div
+                  v-for="issue in issueTypeList"
+                  :key="issue.issue_type_id"
+                  class="flex flex-col items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
+                >
+                  <p
+                    class="line-clamp-3 text-2xl text-gray-900 dark:text-gray-200"
+                  >
+                    {{ issue.name }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

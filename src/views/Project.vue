@@ -2,43 +2,47 @@
   <div>
     <Navbar />
 
-    <div class="p-4 sm:ml-64">
-      <!-- header -->
-      <div class="mt-14 flex-col justify-center flex items-center">
+    <div class="p-4 sm:ml-64 justify-center flex">
+      <div class="max-w-7xl w-full">
+        <!-- header -->
         <div
-          :class="user.role === ROLE.ADMIN ? 'flex' : 'hidden'"
-          class="p-4 border-2 border-gray-200 max-w-7xl flex flex-row justify-between items-center w-full rounded-md"
+          class="mt-14 bg-white rounded-lg flex-col justify-center flex items-center"
         >
-          <p class="text-2xl text-gray-900">Projects</p>
-          <button
-            type="button"
-            @click="toggleModel"
-            class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-          >
-            New Project
-          </button>
-        </div>
-      </div>
-
-      <!-- project list -->
-      <div
-        v-if="projectList.length > 0"
-        class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-10"
-      >
-        <div class="grid grid-cols-2 gap-4">
           <div
-            v-for="project in projectList"
-            :key="project.id"
-            class="flex flex-col items-center justify-center rounded bg-gray-50 h-32 dark:bg-gray-800 p-3"
+            class="p-4 max-w-7xl flex flex-row justify-between items-center w-full rounded-md"
           >
-            <p class="line-clamp-1 text-2xl text-gray-900 dark:text-gray-200">
-              {{ project.project_name }}
-            </p>
-            <p
-              class="text-md line-clamp-3 dark:text-gray-200 text-gray-900 text-center"
+            <p class="text-2xl text-gray-900">Projects</p>
+            <button
+              type="button"
+              @click="toggleModel"
+              :class="user.role === ROLE.ADMIN ? 'flex' : 'hidden'"
+              class="py-2.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
             >
-              {{ project.description }}
-            </p>
+              New Project
+            </button>
+          </div>
+        </div>
+
+        <!-- project list -->
+        <div
+          v-if="projectList.length > 0"
+          class="p-4 rounded-lg dark:border-gray-700 mt-10"
+        >
+          <div class="grid grid-cols-2 gap-4">
+            <div
+              v-for="project in projectList"
+              :key="project.id"
+              class="flex flex-col items-center justify-center rounded bg-gray-50 h-32 dark:bg-gray-800 p-3"
+            >
+              <p class="line-clamp-1 text-2xl text-gray-900 dark:text-gray-200">
+                {{ project.project_name }}
+              </p>
+              <p
+                class="text-md line-clamp-3 dark:text-gray-200 text-gray-900 text-center"
+              >
+                {{ project.description }}
+              </p>
+            </div>
           </div>
         </div>
       </div>

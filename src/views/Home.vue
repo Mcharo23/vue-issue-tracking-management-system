@@ -2,11 +2,12 @@
   <div>
     <Navbar />
 
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 justify-center flex">
       <div
-        class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14"
+        class="p-4 border-2 max-w-7xl w-full text-2xl border-gray-200 rounded-lg dark:border-gray-700 mt-14"
       >
-        <div class="grid grid-cols-2 gap-4">
+        Issue Tracking Management System
+        <!-- <div class="grid grid-cols-2 gap-4">
           <div
             class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
           >
@@ -91,7 +92,7 @@
               </svg>
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

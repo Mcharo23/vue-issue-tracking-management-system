@@ -16,7 +16,7 @@
               'shadow appearance-none border rounded w-full py-2 px-3 mb-1 leading-tight focus:outline-none focus:shadow-outline',
               errorMessage
                 ? 'border-red-500'
-                : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200',
+                : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-700',
             ]"
             id="username"
             type="text"
@@ -39,7 +39,7 @@
               'shadow appearance-none border rounded w-full py-2 px-3 mb-1 leading-tight focus:outline-none focus:shadow-outline',
               errorMessage
                 ? 'border-red-500'
-                : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200',
+                : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-700',
             ]"
             id="password"
             type="password"
@@ -74,7 +74,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth";
@@ -84,9 +84,9 @@ const auth = useAuthStore();
 
 const router = useRouter();
 
-const username = ref("");
-const password = ref("");
-const errorMessage = ref("");
+const username = ref<string>("");
+const password = ref<string>("");
+const errorMessage = ref<string>("");
 
 const handleSignIn = async () => {
   errorMessage.value = "";

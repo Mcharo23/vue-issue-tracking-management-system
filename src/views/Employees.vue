@@ -6,7 +6,7 @@
       <!-- header -->
       <div class="mt-14 flex flex-col justify-center items-center">
         <div
-          class="p-4 border-2 border-gray-200 max-w-7xl flex flex-row justify-between items-center w-full rounded-md"
+          class="p-4 max-w-7xl bg-white flex flex-row justify-between items-center w-full rounded-md"
         >
           <p class="text-2xl text-gray-900">Employees</p>
           <button
@@ -325,11 +325,19 @@ const toggleModel = () => {
 };
 
 const handleOnSubmitNewDeveloper = async () => {
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
   firstNameError.value =
     firstName.value.length === 0 ? "First name required" : null;
   lastNameError.value =
     lastName.value.length === 0 ? "Last name required" : null;
-  emailError.value = email.value.length === 0 ? "Email address required" : null;
+
+  emailError.value =
+    email.value.length === 0
+      ? "Email address required"
+      : !emailPattern.test(email.value)
+      ? "Invalid email address"
+      : null;
 
   if (firstNameError.value || lastNameError.value || emailError.value) {
     return;

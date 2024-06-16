@@ -6,7 +6,7 @@
       <!-- header -->
       <div class="mt-14 flex flex-col justify-center items-center">
         <div
-          class="p-4 border-2 border-gray-200 max-w-7xl flex flex-row justify-between items-center w-full rounded-md"
+          class="p-4 max-w-7xl bg-white flex flex-row justify-between items-center w-full rounded-md"
         >
           <p class="text-2xl text-gray-900">Issues</p>
         </div>
