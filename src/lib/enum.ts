@@ -9,33 +9,33 @@ export const enum STATUS {
   DELETED = "deleted",
 }
 
-export enum PRIORITY {
-  Low = "Low",
-  Medium = "Medium",
-  High = "High",
-  Critical = "Critical",
-}
-
-export enum ISSUE_STATUS {
-  Open = "Open",
-  InProgress = "In Progress",
-  Resolved = "Resolved",
-  Closed = "Closed",
-}
+// export enum PRIORITY {
+//   Low = "Low",
+//   Medium = "Medium",
+//   High = "High",
+//   Critical = "Critical",
+// }
 
 // export enum ISSUE_STATUS {
-//   Open = "OPEN",
-//   InProgress = "IN_PROGRESS",
-//   Resolved = "RESOLVED",
-//   Closed = "CLOSED",
+//   Open = "Open",
+//   InProgress = "In Progress",
+//   Resolved = "Resolved",
+//   Closed = "Closed",
 // }
 
-// export enum PRIORITY {
-//   Low = "LOW",
-//   Medium = "MEDIUM",
-//   High = "HIGH",
-//   Critical = "CRITICAL",
-// }
+export enum ISSUE_STATUS {
+  Open = "OPEN",
+  InProgress = "IN_PROGRESS",
+  Resolved = "RESOLVED",
+  Closed = "CLOSED",
+}
+
+export enum PRIORITY {
+  Low = "LOW",
+  Medium = "MEDIUM",
+  High = "HIGH",
+  Critical = "CRITICAL",
+}
 
 const PRIORITY_COLORS: { [key in PRIORITY]: string } = {
   [PRIORITY.Low]: "#8BC34A", // Green

@@ -148,6 +148,7 @@ const handleOnChangePassword = async () => {
 
   if (success) {
     resMessage.value = message;
+    clearFields();
   } else {
     errorMessage.value = message;
   }

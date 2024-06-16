@@ -19,7 +19,7 @@
                 : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-700',
             ]"
             id="username"
-            type="text"
+            type="email"
             placeholder="Username"
             v-model="username"
           />
