@@ -7,6 +7,7 @@ import Project from "./views/Project.vue";
 import Issue from "./views/Issue.vue";
 import AssignedIssue from "./views/AssignedIssue.vue";
 import ResetPassword from "./views/ResetPassword.vue";
+import IssueProgress from "./views/IssueProgress.vue";
 import { authGuard } from "./utils/auth-guard";
 
 const routes: RouteRecordRaw[] = [
@@ -58,6 +59,12 @@ const routes: RouteRecordRaw[] = [
     path: "/home/reset-password",
     name: "ResetPassword",
     component: ResetPassword,
+    beforeEnter: authGuard,
+  },
+  {
+    path: "/issue/progress/:issue_id",
+    name: "IssueProgress",
+    component: IssueProgress,
     beforeEnter: authGuard,
   },
 ];

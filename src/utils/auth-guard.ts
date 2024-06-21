@@ -19,6 +19,11 @@ export const authGuard = (
 
   const pathname = to.path;
 
+  if (pathname.startsWith("/issue") && !(isAdmin || isDeveloper)) {
+    authStore.logout();
+    return next({ name: "Auth", replace: true });
+  }
+
   if (pathname.startsWith("/home") && !isAdmin) {
     authStore.logout();
     return next({ name: "Auth", replace: true });

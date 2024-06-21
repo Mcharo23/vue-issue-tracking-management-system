@@ -28,7 +28,6 @@ export type PROJECT = {
 
 export type COMMENT = {
   issue_id: string;
-  user_id: string;
   comment: string;
   comment_id: string;
 };
@@ -54,4 +53,18 @@ export type ISSUE = {
 export type ISSUE_TYPE = {
   name: string;
   issue_type_id: string;
+};
+
+export type ISSUE_PROGRESS = {
+  issue_id: string;
+  project: PROJECT;
+  issue_type: ISSUE_TYPE;
+  summary: string;
+  description: string;
+  priority: string;
+  status: string;
+  developer: USER;
+  created_at: string;
+  updated_at: string;
+  comments: COMMENT;
 };

@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "local": "vite --host 192.168.1.151 --port 5173",
+    "local": "vite --host 172.16.130.165 --port 5173",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.1.7",

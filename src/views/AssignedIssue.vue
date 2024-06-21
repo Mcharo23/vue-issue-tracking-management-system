@@ -97,13 +97,23 @@
                   scope="row"
                   class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  <button
-                    type="button"
-                    class="py-2 px-4 text-sm font-medium text-white rounded-lg bg-green-500 hover:bg-green-700"
-                    @click="toggleModel(issue.issue_id)"
-                  >
-                    Progress
-                  </button>
+                  <div class="flex flex-row gap-3">
+                    <button
+                      type="button"
+                      class="py-2 px-4 text-sm font-medium text-white rounded-lg bg-green-500 hover:bg-green-700"
+                      @click="toggleModel(issue.issue_id)"
+                    >
+                      Progress
+                    </button>
+
+                    <button
+                      type="button"
+                      class="py-2 px-4 text-sm font-medium text-white rounded-lg bg-blue-500 hover:bg-blue-700"
+                      @click="navigateToIssueProgress(issue.issue_id)"
+                    >
+                      View
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -258,6 +268,9 @@ import {
   STATUS,
   STATUS_COLORS,
 } from "../lib/enum";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const issueList = ref([]);
 const comment = ref("");
@@ -307,6 +320,10 @@ const recordProgress = async () => {
   );
   toggleModel();
   getIssues();
+};
+
+const navigateToIssueProgress = (issue_id) => {
+  router.push({ name: "IssueProgress", params: { issue_id } });
 };
 
 watch(comment, (newValue) => {

@@ -109,6 +109,7 @@
                       <th scope="col" class="px-6 py-3">Comments</th>
                       <th scope="col" class="px-6 py-3">Priority</th>
                       <th scope="col" class="px-6 py-3">Status</th>
+                      <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -176,6 +177,35 @@
                           class="text-sm font-medium me-2 px-2.5 py-0.5 rounded"
                           >{{ issue.status }}</span
                         >
+                      </td>
+
+                      <td
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        <svg
+                          class="w-6 h-6 text-gray-800 dark:text-white hover:cursor-pointer"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          @click.prevent="
+                            navigateToIssueProgress(issue.issue_id)
+                          "
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-width="2"
+                            d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
+                          />
+                          <path
+                            stroke="currentColor"
+                            stroke-width="2"
+                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                          />
+                        </svg>
                       </td>
                     </tr>
                   </tbody>
@@ -637,6 +667,7 @@
 
 <script setup>
 import { onMounted, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 import { getIssues, newIssue } from "../api/issue";
 import { employees } from "../api/employee";
@@ -650,6 +681,8 @@ import {
   STATUS,
   STATUS_COLORS,
 } from "../lib/enum";
+
+const router = useRouter();
 
 const isActionModelOpen = ref(false);
 const isIssueTypeOpnen = ref(false);
@@ -809,6 +842,10 @@ const handleOnSubmitIssueTypeName = async () => {
     getAllIssueTypes();
     toggleIssueTypeModel();
   }, 100);
+};
+
+const navigateToIssueProgress = (issue_id) => {
+  router.push({ name: "IssueProgress", params: { issue_id } });
 };
 
 // WATCHERS

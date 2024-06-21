@@ -1,4 +1,4 @@
-import { ISSUE } from "../lib/Type";
+import { ISSUE, ISSUE_PROGRESS } from "../lib/Type";
 import { ROLE } from "../lib/enum";
 import { useAuthStore } from "../store/auth";
 import { useRouter } from "vue-router";
@@ -47,6 +47,52 @@ export const getIssues = async (): Promise<{
   }
 };
 
+export const getIssue = async (
+  issue_id: string
+): Promise<{
+  success: boolean;
+  data?: ISSUE_PROGRESS;
+  message?: string;
+}> => {
+  const authStore = useAuthStore();
+
+  const myHeaders = new Headers();
+  const router = useRouter();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${authStore.authToken}`);
+
+  const requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiUrl}/issue/progress/${issue_id}`,
+      requestOptions
+    );
+
+    if (!response.ok) {
+      const errorDetail = await response.json();
+
+      if (response.status === 401) {
+        alert(errorDetail.detail);
+        authStore.logout();
+        router.push("/");
+      }
+
+      throw new Error("Network response was not ok");
+    }
+
+    const data: ISSUE_PROGRESS = await response.json();
+    return { success: true, data: data };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Unknown error occured" };
+  }
+};
+
 export const getIssuesByAssigneeId = async (): Promise<{
   success: boolean;
   data?: ISSUE[];
@@ -79,7 +125,7 @@ export const getIssuesByAssigneeId = async (): Promise<{
         authStore.logout();
         router.push("/");
       }
-
+      console.log(errorDetail);
       throw new Error("Network response was not ok");
     }
 
